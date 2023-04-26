@@ -1,0 +1,59 @@
+* {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    user-select: none !important;
+    -webkit-user-select: none !important;
+
+    font-family: "Nunito Sans", sans-serif;
+}
+
+html {
+    touch-action: none !important;
+}
+
+body {
+    overflow: hidden !important;
+    touch-action: none !important;
+    background-color: #222;
+}
+
+.main-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100vw;
+    height: 100vh;
+    max-width: 80vh;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+}
+
+.main-container > .main-stage {
+    display: block;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+}
+
+.main-container > canvas.main-stage {
+    z-index: 0;
+}
+
+.main-stage.hidden {
+    display: none;
+}
