@@ -1,9 +1,18 @@
 class CoreVec2 {
     x: number
     y: number
-    constructor(x: number = 0, y: number = 0) {
-        this.x = x
-        this.y = y
+    constructor(v?: CoreVec2)
+    constructor(x?: number, y?: number)
+    constructor(x: CoreVec2 | number = 0, y: number = 0) {
+        if (x instanceof CoreVec2) {
+            this.x = x.x
+            this.y = x.y
+        }
+        else {
+            this.x = x
+            this.y = y
+        }
+        return this
     }
     clone(): CoreVec2 {
         return new CoreVec2(this.x, this.y)
@@ -98,7 +107,10 @@ class CoreVec2 {
         }
         return this
     }
-    static one() {
+    to_text(): string {
+        return `x: ${this.x}, y: ${this.y}`
+    }
+    static get one() {
         return new CoreVec2(1, 1)
     }
     static create(v: CoreVec2): CoreVec2
