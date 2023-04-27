@@ -1,47 +1,29 @@
-class XSwipePointer {
-    is_swiped: boolean = false
-    constructor(
-        public swipe_threshold: number
-    ) { }
-    update() {
-        if (this.is_swiped) {
-            if (!input.pointer_hold()) {
-                this.is_swiped = false
-            }
-        }
-    }
-    get_swipe_input(): number {
-        let xinput = 0
-        const xdif = input.pointer_position.x - input.pointer_previous_position.x
-        if (input.pointer_hold() && !this.is_swiped && Math.abs(xdif) >= this.swipe_threshold) {
-            xinput = Math.sign(xdif)
-            this.is_swiped = true
-        }
-        return xinput
-    }
-}
-
-class Player extends CoreGameObject {
-    swipe_pointer: XSwipePointer = new XSwipePointer(10)
+class Player extends LaneObject {
     constructor(position: CoreVec2) {
         super(position)
     }
-    update(): void {
-        this.swipe_pointer.update()
-        this.swipe_pointer.swipe_threshold = stage.size.x / 20
-        if (this.swipe_pointer.get_swipe_input() < 0) {
-            this.position.x -= 100
+
+    get_steer_input(): number {
+        if (input.pointer_down()) {
+            if (input.pointer_position.x < stage.size.x / 2) return -1
+            if (input.pointer_position.x > stage.size.x / 2) return 1
         }
-        else if (this.swipe_pointer.get_swipe_input() > 0) {
-            this.position.x += 100
-        }
+        return 0
     }
+
+    update(): void {
+        const steer_input = this.get_steer_input()
+        if (steer_input < 0) {
+            this.lane--
+        }
+        else if (steer_input > 0) {
+            this.lane++
+        }
+        this.lane = math.clamp(this.lane, -1, 1)
+    }
+
     render(): void {
-        draw.set_font(font.m)
-        draw.set_hvalign('left', 'top')
-        draw.set_color('white')
-        draw.text(40, 40, `thresh: ${this.swipe_pointer.swipe_threshold}\n${this.swipe_pointer.get_swipe_input()}`)
-        draw.rect(this.x - 32, this.y - 32, 32, 32)
+        draw.rect(this.x, this.y, 40, 40)
     }
 }
 

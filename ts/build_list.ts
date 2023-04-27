@@ -19,6 +19,8 @@
 
 'base/alias'
 'base/globals'
+'base/objects/lane_object'
+'base/objects/car'
 'base/objects/player'
 'base/scenes/loading'
 'base/scenes/menu'
